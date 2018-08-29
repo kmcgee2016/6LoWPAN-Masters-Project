@@ -1,1 +1,111 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940"><Things><Thing description="" documentationContent="" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-08-29T08:37:50.194+01:00" name="machine124" projectName="" published="false" tags="Applications:export-1" thingTemplate="6LoWPAN_Sensor_Node" valueStream=""><Owner name="Administrator" type="User"/><avatar/><DesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></DesignTimePermissions><RunTimePermissions/><VisibilityPermissions><Visibility/></VisibilityPermissions><ConfigurationTables/><ThingShape><PropertyDefinitions/><ServiceDefinitions/><EventDefinitions/><ServiceMappings/><ServiceImplementations/><Subscriptions/></ThingShape><PropertyBindings/><RemotePropertyBindings/><RemoteServiceBindings/><RemoteEventBindings/><AlertConfigurations/><ImplementedShapes/><ThingProperties><valve2Counts><Value>0</Value><Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp><Quality>GOOD</Quality></valve2Counts><valve1_last24h><Value>0.0</Value><Timestamp>2018-08-29T08:44:13.128+01:00</Timestamp><Quality>GOOD</Quality></valve1_last24h><coapThingName><Value><![CDATA[coapThing_2]]></Value><Timestamp>2018-08-21T16:40:35.877+01:00</Timestamp><Quality>GOOD</Quality></coapThingName><refCount3><Value>0</Value><Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp><Quality>UNKNOWN</Quality></refCount3><valve1Counts><Value>0</Value><Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp><Quality>GOOD</Quality></valve1Counts><refCount2><Value>0</Value><Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp><Quality>UNKNOWN</Quality></refCount2><refCount1><Value>0</Value><Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp><Quality>UNKNOWN</Quality></refCount1><valve4_last24h><Value>0.0</Value><Timestamp>2018-08-29T08:44:13.128+01:00</Timestamp><Quality>GOOD</Quality></valve4_last24h><valve3Counts><Value>0</Value><Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp><Quality>GOOD</Quality></valve3Counts><refCount4><Value>0</Value><Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp><Quality>UNKNOWN</Quality></refCount4><valve3_last24h><Value>0.0</Value><Timestamp>2018-08-29T08:44:13.128+01:00</Timestamp><Quality>GOOD</Quality></valve3_last24h><valveLifeTime><Value>1000000</Value><Timestamp>2018-08-29T08:38:15.451+01:00</Timestamp><Quality>GOOD</Quality></valveLifeTime><lastSeenSystem><Value>2018-08-21T21:43:42.568+01:00</Value><Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp><Quality>GOOD</Quality></lastSeenSystem><valve4Counts><Value>0</Value><Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp><Quality>GOOD</Quality></valve4Counts></ThingProperties><ConfigurationChanges><ConfigurationChange changeAction="CREATE" changeReason="header : name : updated, thingTemplate : updated&#10;" timestamp="2018-08-21T16:40:08.905+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2018-08-29T08:37:50.194+01:00" user="Administrator"/></ConfigurationChanges></Thing></Things></Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940">
+    <Things>
+        <Thing description="" documentationContent="" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-08-29T08:37:50.194+01:00" name="machine124" projectName="" published="false" tags="Applications:export-1" thingTemplate="6LoWPAN_Sensor_Node" valueStream="">
+            <Owner name="Administrator" type="User" />
+            <avatar />
+            <DesignTimePermissions>
+                <Create />
+                <Read />
+                <Update />
+                <Delete />
+                <Metadata />
+            </DesignTimePermissions>
+            <RunTimePermissions />
+            <VisibilityPermissions>
+                <Visibility />
+            </VisibilityPermissions>
+            <ConfigurationTables />
+            <ThingShape>
+                <PropertyDefinitions />
+                <ServiceDefinitions />
+                <EventDefinitions />
+                <ServiceMappings />
+                <ServiceImplementations />
+                <Subscriptions />
+            </ThingShape>
+            <PropertyBindings />
+            <RemotePropertyBindings />
+            <RemoteServiceBindings />
+            <RemoteEventBindings />
+            <AlertConfigurations />
+            <ImplementedShapes />
+            <ThingProperties>
+                <valve2Counts>
+                    <Value>0</Value>
+                    <Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve2Counts>
+                <valve1_last24h>
+                    <Value>0.0</Value>
+                    <Timestamp>2018-08-29T08:44:13.128+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve1_last24h>
+                <coapThingName>
+                    <Value><![CDATA[coapThing_2]]></Value>
+                    <Timestamp>2018-08-21T16:40:35.877+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </coapThingName>
+                <refCount3>
+                    <Value>0</Value>
+                    <Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp>
+                    <Quality>UNKNOWN</Quality>
+                </refCount3>
+                <valve1Counts>
+                    <Value>0</Value>
+                    <Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve1Counts>
+                <refCount2>
+                    <Value>0</Value>
+                    <Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp>
+                    <Quality>UNKNOWN</Quality>
+                </refCount2>
+                <refCount1>
+                    <Value>0</Value>
+                    <Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp>
+                    <Quality>UNKNOWN</Quality>
+                </refCount1>
+                <valve4_last24h>
+                    <Value>0.0</Value>
+                    <Timestamp>2018-08-29T08:44:13.128+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve4_last24h>
+                <valve3Counts>
+                    <Value>0</Value>
+                    <Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve3Counts>
+                <refCount4>
+                    <Value>0</Value>
+                    <Timestamp>1970-01-01T01:00:00.000+01:00</Timestamp>
+                    <Quality>UNKNOWN</Quality>
+                </refCount4>
+                <valve3_last24h>
+                    <Value>0.0</Value>
+                    <Timestamp>2018-08-29T08:44:13.128+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve3_last24h>
+                <valveLifeTime>
+                    <Value>1000000</Value>
+                    <Timestamp>2018-08-29T08:38:15.451+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valveLifeTime>
+                <lastSeenSystem>
+                    <Value>2018-08-21T21:43:42.568+01:00</Value>
+                    <Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </lastSeenSystem>
+                <valve4Counts>
+                    <Value>0</Value>
+                    <Timestamp>2018-08-21T21:43:43.270+01:00</Timestamp>
+                    <Quality>GOOD</Quality>
+                </valve4Counts>
+            </ThingProperties>
+            <ConfigurationChanges>
+                <ConfigurationChange changeAction="CREATE" changeReason="header : name : updated, thingTemplate : updated&#xA;" timestamp="2018-08-21T16:40:08.905+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#xA;" timestamp="2018-08-29T08:37:50.194+01:00" user="Administrator" />
+            </ConfigurationChanges>
+        </Thing>
+    </Things>
+</Entities>
