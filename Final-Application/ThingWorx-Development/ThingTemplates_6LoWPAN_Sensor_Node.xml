@@ -1,1 +1,88 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940"><ThingTemplates><ThingTemplate baseThingTemplate="GenericThing" description="" documentationContent="" effectiveThingPackage="ConfiguredThing" homeMashup="" lastModifiedDate="2018-08-29T08:38:15.310+01:00" name="6LoWPAN_Sensor_Node" projectName="" tags="Applications:export-1" thingPackage="" valueStream=""><Owner name="Administrator" type="User"/><avatar/><DesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></DesignTimePermissions><RunTimePermissions/><VisibilityPermissions><Visibility/></VisibilityPermissions><ConfigurationTables/><PropertyBindings/><RemotePropertyBindings/><RemoteServiceBindings/><RemoteEventBindings/><AlertConfigurations><AlertDefinitions name="coapThingName"/><AlertDefinitions name="lastSeenSystem"/><AlertDefinitions name="refCount1"/><AlertDefinitions name="refCount2"/><AlertDefinitions name="refCount3"/><AlertDefinitions name="refCount4"/><AlertDefinitions name="valve1_last24h"/><AlertDefinitions name="valve1Counts"/><AlertDefinitions name="valve2_last24h"/><AlertDefinitions name="valve2Counts"/><AlertDefinitions name="valve3_last24h"/><AlertDefinitions name="valve3Counts"/><AlertDefinitions name="valve4_last24h"/><AlertDefinitions name="valve4Counts"/><AlertDefinitions name="valveLifeTime"/></AlertConfigurations><ThingShape><PropertyDefinitions><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" aspect.thingTemplate="Coap" baseType="THINGNAME" category="" description="" isLocalOnly="false" name="coapThingName" ordinal="1"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="DATETIME" category="" description="" isLocalOnly="false" name="lastSeenSystem" ordinal="10"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount1" ordinal="11"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount2" ordinal="12"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount3" ordinal="13"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount4" ordinal="14"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve1_last24h" ordinal="6"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve1Counts" ordinal="2"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve2_last24h" ordinal="7"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve2Counts" ordinal="3"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve3_last24h" ordinal="8"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve3Counts" ordinal="4"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve4_last24h" ordinal="9"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve4Counts" ordinal="5"/><PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.defaultValue="1000000" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valveLifeTime" ordinal="15"/></PropertyDefinitions><ServiceDefinitions/><EventDefinitions/><ServiceMappings/><ServiceImplementations/><Subscriptions/></ThingShape><ImplementedShapes/><SharedConfigurationTables/><InstanceDesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></InstanceDesignTimePermissions><InstanceRunTimePermissions/><InstanceVisibilityPermissions><Visibility/></InstanceVisibilityPermissions><ConfigurationChanges><ConfigurationChange changeAction="CREATE" changeReason="header : baseThingTemplate : updated, name : updated&#10;documentation : updated&#10;properties : coapThingName : Added, valve1Counts : Added, valve2Counts : Added, valve3Counts : Added, valve4Counts : Added, valve1_last24h : Added, Updated, valve2_last24h : Added, valve3_last24h : Added, valve4_last24h : Added&#10;" timestamp="2018-08-21T16:39:05.756+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="subscriptions : New subscription : Source updated, Code Updated&#10;" timestamp="2018-08-21T16:42:04.220+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="properties : lastSeenSystem : Added&#10;" timestamp="2018-08-21T17:02:42.724+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="properties : refCount1 : Added, refCount2 : Added, refCount3 : Added, refCount4 : Added&#10;" timestamp="2018-08-21T17:08:40.214+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="properties : valve4Counts : Updated&#10;" timestamp="2018-08-21T18:22:12.902+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="properties : valveLifeTime : Added&#10;" timestamp="2018-08-21T21:02:17.662+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2018-08-29T08:38:15.310+01:00" user="Administrator"/></ConfigurationChanges></ThingTemplate></ThingTemplates></Entities>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940">
+    <ThingTemplates>
+        <ThingTemplate baseThingTemplate="GenericThing" description="" documentationContent="" effectiveThingPackage="ConfiguredThing" homeMashup="" lastModifiedDate="2018-08-29T08:38:15.310+01:00" name="6LoWPAN_Sensor_Node" projectName="" tags="Applications:export-1" thingPackage="" valueStream="">
+            <Owner name="Administrator" type="User" />
+            <avatar />
+            <DesignTimePermissions>
+                <Create />
+                <Read />
+                <Update />
+                <Delete />
+                <Metadata />
+            </DesignTimePermissions>
+            <RunTimePermissions />
+            <VisibilityPermissions>
+                <Visibility />
+            </VisibilityPermissions>
+            <ConfigurationTables />
+            <PropertyBindings />
+            <RemotePropertyBindings />
+            <RemoteServiceBindings />
+            <RemoteEventBindings />
+            <AlertConfigurations>
+                <AlertDefinitions name="coapThingName" />
+                <AlertDefinitions name="lastSeenSystem" />
+                <AlertDefinitions name="refCount1" />
+                <AlertDefinitions name="refCount2" />
+                <AlertDefinitions name="refCount3" />
+                <AlertDefinitions name="refCount4" />
+                <AlertDefinitions name="valve1_last24h" />
+                <AlertDefinitions name="valve1Counts" />
+                <AlertDefinitions name="valve2_last24h" />
+                <AlertDefinitions name="valve2Counts" />
+                <AlertDefinitions name="valve3_last24h" />
+                <AlertDefinitions name="valve3Counts" />
+                <AlertDefinitions name="valve4_last24h" />
+                <AlertDefinitions name="valve4Counts" />
+                <AlertDefinitions name="valveLifeTime" />
+            </AlertConfigurations>
+            <ThingShape>
+                <PropertyDefinitions>
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" aspect.thingTemplate="Coap" baseType="THINGNAME" category="" description="" isLocalOnly="false" name="coapThingName" ordinal="1" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="DATETIME" category="" description="" isLocalOnly="false" name="lastSeenSystem" ordinal="10" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount1" ordinal="11" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount2" ordinal="12" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount3" ordinal="13" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="refCount4" ordinal="14" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve1_last24h" ordinal="6" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve1Counts" ordinal="2" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="false" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve2_last24h" ordinal="7" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve2Counts" ordinal="3" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve3_last24h" ordinal="8" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve3Counts" ordinal="4" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="NUMBER" category="" description="" isLocalOnly="false" name="valve4_last24h" ordinal="9" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valve4Counts" ordinal="5" />
+                    <PropertyDefinition aspect.cacheTime="0.0" aspect.dataChangeThreshold="0.0" aspect.dataChangeType="VALUE" aspect.defaultValue="1000000" aspect.isLogged="false" aspect.isPersistent="true" aspect.isReadOnly="false" baseType="INTEGER" category="" description="" isLocalOnly="false" name="valveLifeTime" ordinal="15" />
+                </PropertyDefinitions>
+                <ServiceDefinitions />
+                <EventDefinitions />
+                <ServiceMappings />
+                <ServiceImplementations />
+                <Subscriptions />
+            </ThingShape>
+            <ImplementedShapes />
+            <SharedConfigurationTables />
+            <InstanceDesignTimePermissions>
+                <Create />
+                <Read />
+                <Update />
+                <Delete />
+                <Metadata />
+            </InstanceDesignTimePermissions>
+            <InstanceRunTimePermissions />
+            <InstanceVisibilityPermissions>
+                <Visibility />
+            </InstanceVisibilityPermissions>
+            <ConfigurationChanges>
+                <ConfigurationChange changeAction="CREATE" changeReason="header : baseThingTemplate : updated, name : updated&#xA;documentation : updated&#xA;properties : coapThingName : Added, valve1Counts : Added, valve2Counts : Added, valve3Counts : Added, valve4Counts : Added, valve1_last24h : Added, Updated, valve2_last24h : Added, valve3_last24h : Added, valve4_last24h : Added&#xA;" timestamp="2018-08-21T16:39:05.756+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="subscriptions : New subscription : Source updated, Code Updated&#xA;" timestamp="2018-08-21T16:42:04.220+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : lastSeenSystem : Added&#xA;" timestamp="2018-08-21T17:02:42.724+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : refCount1 : Added, refCount2 : Added, refCount3 : Added, refCount4 : Added&#xA;" timestamp="2018-08-21T17:08:40.214+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : valve4Counts : Updated&#xA;" timestamp="2018-08-21T18:22:12.902+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="properties : valveLifeTime : Added&#xA;" timestamp="2018-08-21T21:02:17.662+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#xA;" timestamp="2018-08-29T08:38:15.310+01:00" user="Administrator" />
+            </ConfigurationChanges>
+        </ThingTemplate>
+    </ThingTemplates>
+</Entities>
