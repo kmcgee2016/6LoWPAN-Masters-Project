@@ -37,7 +37,7 @@ extern int _gnrc_netif_config(int argc, char **argv);
 int digitalValues[6] = {0}; //valves and door
 float extruderSpeed = -1;
 int secondValue[5] = {0,0,0,0,0};
-gpio_t pin5 = GPIO_PIN(PA,22);//TODO
+//gpio_t pin5 = GPIO_PIN(PA,22);//TODO
 void valve1_handler(void* argv){
 	//int * data = (int*)argv;
 	//*data++;
@@ -71,19 +71,19 @@ int main(void)
 	/**************************************************/
 	//GPIO stuff(initialisation + interrupts)
 	gpio_t pin1 = GPIO_PIN(PA,14);//TODO
-	if(gpio_init_int(pin1, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve1_handler,(void*)(digitalValues[0])) != 0){
+	if(gpio_init_int(pin1, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve1_handler,(void*)(0)) != 0){
 		puts("Falied to initialise GPIO interrupt 1\n");
 	}
 	gpio_t pin2 = GPIO_PIN(PA,18);//TODO
-	if(gpio_init_int(pin2, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve2_handler,(void*)(digitalValues[0])) != 0){
+	if(gpio_init_int(pin2, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve2_handler,(void*)(0)) != 0){
 		puts("Falied to initialise GPIO interrupt 2\n");
 	}
 	gpio_t pin3 = GPIO_PIN(PB,23);//TODO
-	if(gpio_init_int(pin3, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve3_handler,(void*)(digitalValues[0])) != 0){
+	if(gpio_init_int(pin3, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve3_handler,(void*)(0)) != 0){
 		puts("Falied to initialise GPIO interrupt 3\n");
 	}
 	gpio_t pin4 = GPIO_PIN(PA,15);//TODO
-	if(gpio_init_int(pin4, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve4_handler,(void*)(digitalValues[0])) != 0){
+	if(gpio_init_int(pin4, GPIO_IN_PD,GPIO_RISING, (gpio_cb_t)valve4_handler,(void*)(0)) != 0){
 		puts("Falied to initialise GPIO interrupt 4\n");
 	}
 	

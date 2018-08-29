@@ -19,7 +19,7 @@
 extern int digitalValues[6];
 extern float extruderSpeed;
 extern int secondValue[5];
-extern gpio_t pin5;
+//extern gpio_t pin5;
 static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *context)
 {
     (void)context;
@@ -30,7 +30,7 @@ static ssize_t _riot_board_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, vo
 static ssize_t _riot_value_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, void *context)
 {
     (void) context;
-
+	printf("Getting Valve 1");
     ssize_t p = 0;
     char rsp[16];
     unsigned code = COAP_CODE_EMPTY;
@@ -196,8 +196,8 @@ static ssize_t _riot_value5_handler(coap_pkt_t *pkt, uint8_t *buf, size_t len, v
         
 		//KMG: change the default value
 		printf("State\n");
-		secondValue[4] = gpio_read(pin5);
-		printf("state = %d\n",gpio_read(pin5));
+		secondValue[4] = 2;//gpio_read(pin5);
+		//printf("state = %d\n",gpio_read(pin5));
 		p += fmt_u32_dec(rsp, secondValue[4]);
 		code = COAP_CODE_205;
         break;
@@ -271,7 +271,7 @@ const coap_resource_t coap_resources[] = {
     COAP_WELL_KNOWN_CORE_DEFAULT_HANDLER,
     { "/sha256", COAP_POST, _sha256_handler, NULL },
     { "/riot/board", COAP_GET, _riot_board_handler, NULL },
-    { "/riot/valve1", COAP_GET | COAP_PUT | COAP_POST, _riot_value_handler, NULL },
+    { "/riot/valve1", (COAP_GET | COAP_PUT | COAP_POST), _riot_value_handler, NULL },
     { "/riot/valve2", COAP_GET | COAP_PUT | COAP_POST, _riot_value2_handler, NULL },
     { "/riot/valve3", COAP_GET | COAP_PUT | COAP_POST, _riot_value3_handler, NULL },
     { "/riot/valve4", COAP_GET | COAP_PUT | COAP_POST, _riot_value4_handler, NULL },
