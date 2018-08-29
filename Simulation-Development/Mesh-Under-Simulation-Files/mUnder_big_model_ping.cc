@@ -1,19 +1,8 @@
 //Author: Kevin Mc Gee, Based on original work(L4 routing) by Moab Rodrigues de Jesus
 /*
-// Network topology:
+// Network topology: Large(See corresponding portfolio - Appendix C for design details)
 //
-//			n3			/\
-//			|			|
-//			|			| 25m
-//			|			|
-//			|			\/
-//			n2		
-//		      /   \			/\
-//		     /	   \			|
-//		    /	    \			| 17m
-//		  n0	     n1			\/
-//		 <------->
-//			16m
+//
 //===================
 // WSN (802.15.4)
 */
