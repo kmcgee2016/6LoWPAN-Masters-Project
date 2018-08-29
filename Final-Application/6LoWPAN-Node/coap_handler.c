@@ -5,7 +5,13 @@
  * General Public License v2.1. See the file LICENSE in the top level
  * directory for more details.
  */
-
+/*
+	KMG: 15/08/2018: This is a modified version of the nanocoap_server example found in the RIOT-OS examples folder
+	[https://github.com/RIOT-OS/RIOT/tree/master/examples/nanocoap_server]
+	-> The only changes were to add extra resources and associated handlers
+	->Note: Effort was made to streamline this code by using a common handler for all common resources, however there were run-time
+		issues with that approach. Therefore the prototype code was used in the final application
+*/
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
