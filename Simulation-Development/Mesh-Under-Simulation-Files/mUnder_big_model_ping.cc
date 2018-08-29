@@ -8,10 +8,10 @@
 //			|			|
 //			|			\/
 //			n2		
-//		   /  \			/\
-//		  /	   \		|
-//		 /		\		| 17m
-//		n0		 n1		\/
+//		      /   \			/\
+//		     /	   \			|
+//		    /	    \			| 17m
+//		  n0	     n1			\/
 //		 <------->
 //			16m
 //===================
@@ -29,7 +29,7 @@
 //udp-echo.cc
 
 #include "ns3/core-module.h"
-#include "ns3/lr-wpan-module.h" //my stuff should be in here too!
+#include "ns3/lr-wpan-module.h" 
 #include "ns3/propagation-loss-model.h"
 #include "ns3/propagation-delay-model.h"
 #include "ns3/single-model-spectrum-channel.h"
@@ -49,9 +49,9 @@
 #include "ns3/flow-monitor-module.h"
 #include "ns3/ipv6-flow-classifier.h"
 #include "ns3/ping6-helper.h"
-//#include "lowpanL2Hdr.h"
+
 using namespace ns3;
-NS_LOG_COMPONENT_DEFINE ("WSN");//TODO: See what the deal is with this stuff
+NS_LOG_COMPONENT_DEFINE ("WSN");
 void ReceivePacket (Ptr<Socket> dest, Ptr<Socket> socket){
 	//dest->Connect(remote);
 	while (socket->Recv ()){
@@ -87,17 +87,15 @@ int main(){
 // Enable calculation of FCS in the trailers. Only necessary when interacting with real devices or wireshark.(Tommaso Pecorella)
 GlobalValue::Bind ("ChecksumEnabled", BooleanValue (true));
 
-LogComponentEnable ("WSN", LOG_LEVEL_INFO);	//TODO: See what the deal is with this stuff
-LogComponentEnable ("Socket", LOG_LEVEL_INFO);//TODO: See what the deal is with this stuff
-//KMG Test:
-//lowpanL2Hdr myHeader;
+LogComponentEnable ("WSN", LOG_LEVEL_INFO);	
+LogComponentEnable ("Socket", LOG_LEVEL_INFO);
 
-///Current attempt at channel design - Needs overhaul
+
+
 //Each device must be attached to same channel - 
-Ptr<SingleModelSpectrumChannel> channel = CreateObject<SingleModelSpectrumChannel>(); //maybe not the way to go. Look at 
-// https://www.nsnam.org/doxygen/lr-wpan-error-distance-plot_8cc_source.html
-Ptr<FriisPropagationLossModel> propModel = CreateObject<FriisPropagationLossModel>();//just for now
-Ptr<ConstantSpeedPropagationDelayModel> delayModel = CreateObject<ConstantSpeedPropagationDelayModel>();//not sure what else to do
+Ptr<SingleModelSpectrumChannel> channel = CreateObject<SingleModelSpectrumChannel>(); 
+Ptr<FriisPropagationLossModel> propModel = CreateObject<FriisPropagationLossModel>();
+Ptr<ConstantSpeedPropagationDelayModel> delayModel = CreateObject<ConstantSpeedPropagationDelayModel>();
 channel->AddPropagationLossModel(propModel);
 channel->SetPropagationDelayModel(delayModel);
 
@@ -112,7 +110,7 @@ NodeContainer nodes;
 //deprecated stuff for channel tuning
 double txPower = 3;
 uint32_t channelNumber = 11;
-//configure power of transmission - Needs overhaul
+//configure power of transmission
 LrWpanSpectrumValueHelper svh;
 Ptr<SpectrumValue> psd = svh.CreateTxPowerSpectralDensity (txPower, channelNumber);
 
@@ -135,6 +133,9 @@ for(iterator = 0; iterator < 85; iterator++){
 	sender[iterator] = CreateObject<ConstantPositionMobilityModel>();
 }
 //TODO: Position stuff + MAC addresses
+/*
+	KMG: The following work was manually written as looping over this difficult operation resulted in difficult run-time errors
+*/
 /*A*/
 sender[0]->SetPosition(Vector(76.5,0,0));
 dev[0]->GetPhy()->SetMobility(sender[0]);
@@ -517,7 +518,8 @@ for(iterator = 0; iterator < 85; iterator++){
 
 NS_LOG_UNCOND("Just before routing\n");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//ROOT:
+//KMG: Likewise, populating the lookup tables in a loop resulted in a difficult run-time error => manually code them
+	//ROOT:
 //uint16_t one = 1;
 //uint16_t counter;
 uint16_t innerCount;
@@ -914,6 +916,7 @@ dev[65]->GetMac()->SetNextHopForIndex((dev[77]->GetMac()->GetShortAddress()),uin
 dev[77]->GetMac()->SetNextHopForIndex((dev[65]->GetMac()->GetShortAddress()),uint16_t(1)); //RFD to ROOT
 dev[77]->GetMac()->SetMeshParentAddress((dev[65]->GetMac()->GetShortAddress())); //RFD to FFD
 ///////
+//original loop that resulted in memory leak issues(used hard coding instead)
 /*
 for(counter = 0; counter < 6; counter++){
 
@@ -948,7 +951,7 @@ for(innerCount = 79; innerCount < 83; innerCount++){
 NS_LOG_UNCOND("Adding PING layer.\n");
 uint32_t packetSize = 400; //bytes
 Time interPacketInterval = Seconds (1);//Seconds (0.1);
-uint32_t numPackets = 10; // packets
+uint32_t numPackets = 10; // packets(This was modified between simulations, where necessary)
 Ping6Helper ping6_SRC[80];
 ApplicationContainer apps_SRC[80];
 uint16_t srcCount = 0;
