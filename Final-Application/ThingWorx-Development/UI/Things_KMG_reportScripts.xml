@@ -1,6 +1,73 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940"><Things><Thing description="" documentationContent="" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-08-29T08:38:38.304+01:00" name="KMG_reportScripts" projectName="" published="false" tags="Applications:export-1" thingTemplate="GenericThing" valueStream=""><Owner name="Administrator" type="User"/><avatar/><DesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></DesignTimePermissions><RunTimePermissions/><VisibilityPermissions><Visibility/></VisibilityPermissions><ConfigurationTables/><ThingShape><PropertyDefinitions/><ServiceDefinitions><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getCurrentTime"><ResultType baseType="STRING" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getMachineGraphData"><ResultType aspect.dataShape="machineGraphData" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions><FieldDefinition aspect.isRequired="true" baseType="DATETIME" description="" name="endDate" ordinal="3"/><FieldDefinition aspect.thingTemplate="6LoWPAN_Sensor_Node" baseType="THINGNAME" description="" name="machineName" ordinal="1"/><FieldDefinition aspect.isRequired="true" baseType="DATETIME" description="" name="startDate" ordinal="2"/></ParameterDefinitions></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getMachinery"><ResultType aspect.dataShape="machineryDatashape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition></ServiceDefinitions><EventDefinitions/><ServiceMappings/><ServiceImplementations><ServiceImplementation description="" handlerName="Script" name="getCurrentTime"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var time = new Date();
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940">
+    <Things>
+        <Thing description="" documentationContent="" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-08-29T08:38:38.304+01:00" name="KMG_reportScripts" projectName="" published="false" tags="Applications:export-1" thingTemplate="GenericThing" valueStream="">
+            <Owner name="Administrator" type="User" />
+            <avatar />
+            <DesignTimePermissions>
+                <Create />
+                <Read />
+                <Update />
+                <Delete />
+                <Metadata />
+            </DesignTimePermissions>
+            <RunTimePermissions />
+            <VisibilityPermissions>
+                <Visibility />
+            </VisibilityPermissions>
+            <ConfigurationTables />
+            <ThingShape>
+                <PropertyDefinitions />
+                <ServiceDefinitions>
+                    <ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getCurrentTime">
+                        <ResultType baseType="STRING" description="" name="result" ordinal="0" />
+                        <ParameterDefinitions />
+                    </ServiceDefinition>
+                    <ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getMachineGraphData">
+                        <ResultType aspect.dataShape="machineGraphData" baseType="INFOTABLE" description="" name="result" ordinal="0" />
+                        <ParameterDefinitions>
+                            <FieldDefinition aspect.isRequired="true" baseType="DATETIME" description="" name="endDate" ordinal="3" />
+                            <FieldDefinition aspect.thingTemplate="6LoWPAN_Sensor_Node" baseType="THINGNAME" description="" name="machineName" ordinal="1" />
+                            <FieldDefinition aspect.isRequired="true" baseType="DATETIME" description="" name="startDate" ordinal="2" />
+                        </ParameterDefinitions>
+                    </ServiceDefinition>
+                    <ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getMachinery">
+                        <ResultType aspect.dataShape="machineryDatashape" baseType="INFOTABLE" description="" name="result" ordinal="0" />
+                        <ParameterDefinitions />
+                    </ServiceDefinition>
+                </ServiceDefinitions>
+                <EventDefinitions />
+                <ServiceMappings />
+                <ServiceImplementations>
+                    <ServiceImplementation description="" handlerName="Script" name="getCurrentTime">
+                        <ConfigurationTables>
+                            <ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0">
+                                <DataShape>
+                                    <FieldDefinitions>
+                                        <FieldDefinition baseType="STRING" description="code" name="code" ordinal="0" />
+                                    </FieldDefinitions>
+                                </DataShape>
+                                <Rows>
+                                    <Row>
+                                        <code><![CDATA[var time = new Date();
 
-var result = time.toString();]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="getMachineGraphData"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[/////////////////////////////////
+var result = time.toString();]]></code>
+                                    </Row>
+                                </Rows>
+                            </ConfigurationTable>
+                        </ConfigurationTables>
+                    </ServiceImplementation>
+                    <ServiceImplementation description="" handlerName="Script" name="getMachineGraphData">
+                        <ConfigurationTables>
+                            <ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0">
+                                <DataShape>
+                                    <FieldDefinitions>
+                                        <FieldDefinition baseType="STRING" description="code" name="code" ordinal="0" />
+                                    </FieldDefinitions>
+                                </DataShape>
+                                <Rows>
+                                    <Row>
+                                        <code><![CDATA[/////////////////////////////////
 /////////Get graph data//////////
 /////////////////////////////////
 
@@ -43,7 +110,23 @@ for(var i = 0; i < maxIterations; i++){
     newRow.Timestamp = resultSet.rows[i].timestamp;
     result.AddRow(newRow);
 }
-]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="getMachinery"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[
+]]></code>
+                                    </Row>
+                                </Rows>
+                            </ConfigurationTable>
+                        </ConfigurationTables>
+                    </ServiceImplementation>
+                    <ServiceImplementation description="" handlerName="Script" name="getMachinery">
+                        <ConfigurationTables>
+                            <ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0">
+                                <DataShape>
+                                    <FieldDefinitions>
+                                        <FieldDefinition baseType="STRING" description="code" name="code" ordinal="0" />
+                                    </FieldDefinitions>
+                                </DataShape>
+                                <Rows>
+                                    <Row>
+                                        <code><![CDATA[
 // result: INFOTABLE dataShape: RootEntityList
 var resultSet = ThingTemplates["6LoWPAN_Sensor_Node"].GetImplementingThings();
 var newRow;
@@ -116,4 +199,40 @@ for(var i=0;i<resultSet.rows.length;i++){
     }
     result.AddRow(newRow);
 }
-]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation></ServiceImplementations><Subscriptions/></ThingShape><PropertyBindings/><RemotePropertyBindings/><RemoteServiceBindings/><RemoteEventBindings/><AlertConfigurations/><ImplementedShapes/><ThingProperties/><ConfigurationChanges><ConfigurationChange changeAction="CREATE" changeReason="header : thingTemplate : updated, name : updated&#10;services :  : Input parameter machineName Added, Input parameter startDate Added, Input parameter endDate Added, Input parameter startDate Updated, getMachineGraphData : Inputs updated, Service Added, getCurrentTime : Code Updated, Service Added&#10;" timestamp="2018-08-21T20:09:51.194+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getCurrentTime : Output Updated, getMachinery : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-08-21T20:20:29.019+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T20:21:16.692+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T20:21:27.800+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachineGraphData : Code Updated, Output Updated&#10;" timestamp="2018-08-21T20:39:20.851+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T20:39:24.782+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T21:15:47.224+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:15:52.170+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T21:34:25.613+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:35:21.508+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:35:58.917+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:36:32.316+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:43:40.041+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T22:43:36.232+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T22:43:39.477+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2018-08-29T08:38:38.304+01:00" user="Administrator"/></ConfigurationChanges></Thing></Things></Entities>
+]]></code>
+                                    </Row>
+                                </Rows>
+                            </ConfigurationTable>
+                        </ConfigurationTables>
+                    </ServiceImplementation>
+                </ServiceImplementations>
+                <Subscriptions />
+            </ThingShape>
+            <PropertyBindings />
+            <RemotePropertyBindings />
+            <RemoteServiceBindings />
+            <RemoteEventBindings />
+            <AlertConfigurations />
+            <ImplementedShapes />
+            <ThingProperties />
+            <ConfigurationChanges>
+                <ConfigurationChange changeAction="CREATE" changeReason="header : thingTemplate : updated, name : updated&#xA;services :  : Input parameter machineName Added, Input parameter startDate Added, Input parameter endDate Added, Input parameter startDate Updated, getMachineGraphData : Inputs updated, Service Added, getCurrentTime : Code Updated, Service Added&#xA;" timestamp="2018-08-21T20:09:51.194+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : getCurrentTime : Output Updated, getMachinery : Output Updated, Code Updated, Service Added&#xA;" timestamp="2018-08-21T20:20:29.019+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#xA;" timestamp="2018-08-21T20:21:16.692+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T20:21:27.800+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : getMachineGraphData : Code Updated, Output Updated&#xA;" timestamp="2018-08-21T20:39:20.851+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T20:39:24.782+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#xA;" timestamp="2018-08-21T21:15:47.224+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:15:52.170+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#xA;" timestamp="2018-08-21T21:34:25.613+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:35:21.508+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:35:58.917+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:36:32.316+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:43:40.041+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#xA;" timestamp="2018-08-21T22:43:36.232+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T22:43:39.477+01:00" user="Administrator" />
+                <ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#xA;" timestamp="2018-08-29T08:38:38.304+01:00" user="Administrator" />
+            </ConfigurationChanges>
+        </Thing>
+    </Things>
+</Entities>
