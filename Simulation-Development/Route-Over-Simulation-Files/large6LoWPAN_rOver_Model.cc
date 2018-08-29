@@ -1,19 +1,7 @@
 //Author: Kevin Mc Gee, Based on original work(L4 routing) by Moab Rodrigues de Jesus
 /*
-// Network topology:
-//
-//			n3			/\
-//			|			|
-//			|			| 25m
-//			|			|
-//			|			\/
-//			n2		
-//		   /  \			/\
-//		  /	   \		|
-//		 /		\		| 17m
-//		n0		 n1		\/
-//		 <------->
-//			16m
+// Network topology:  Large(See Appendix C of corresponding portfolio)
+
 //===================
 // WSN (802.15.4)
 */
@@ -87,17 +75,16 @@ int main(){
 // Enable calculation of FCS in the trailers. Only necessary when interacting with real devices or wireshark.(Tommaso Pecorella)
 GlobalValue::Bind ("ChecksumEnabled", BooleanValue (true));
 
-LogComponentEnable ("WSN", LOG_LEVEL_INFO);	//TODO: See what the deal is with this stuff
-LogComponentEnable ("Socket", LOG_LEVEL_INFO);//TODO: See what the deal is with this stuff
+LogComponentEnable ("WSN", LOG_LEVEL_INFO);	
+LogComponentEnable ("Socket", LOG_LEVEL_INFO);
 //KMG Test:
 //lowpanL2Hdr myHeader;
 
 ///Current attempt at channel design - Needs overhaul
 //Each device must be attached to same channel - 
-Ptr<SingleModelSpectrumChannel> channel = CreateObject<SingleModelSpectrumChannel>(); //maybe not the way to go. Look at 
-// https://www.nsnam.org/doxygen/lr-wpan-error-distance-plot_8cc_source.html
-Ptr<FriisPropagationLossModel> propModel = CreateObject<FriisPropagationLossModel>();//just for now
-Ptr<ConstantSpeedPropagationDelayModel> delayModel = CreateObject<ConstantSpeedPropagationDelayModel>();//not sure what else to do
+Ptr<SingleModelSpectrumChannel> channel = CreateObject<SingleModelSpectrumChannel>(); 
+Ptr<FriisPropagationLossModel> propModel = CreateObject<FriisPropagationLossModel>();
+Ptr<ConstantSpeedPropagationDelayModel> delayModel = CreateObject<ConstantSpeedPropagationDelayModel>();
 channel->AddPropagationLossModel(propModel);
 channel->SetPropagationDelayModel(delayModel);
 
