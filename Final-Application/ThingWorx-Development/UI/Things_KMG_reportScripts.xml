@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940"><Things><Thing description="" documentationContent="" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-08-29T08:38:38.304+01:00" name="KMG_reportScripts" projectName="" published="false" tags="Applications:export-1" thingTemplate="GenericThing" valueStream=""><Owner name="Administrator" type="User"/><avatar/><DesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></DesignTimePermissions><RunTimePermissions/><VisibilityPermissions><Visibility/></VisibilityPermissions><ConfigurationTables/><ThingShape><PropertyDefinitions/><ServiceDefinitions><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getCurrentTime"><ResultType baseType="STRING" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getMachineGraphData"><ResultType aspect.dataShape="machineGraphData" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions><FieldDefinition aspect.isRequired="true" baseType="DATETIME" description="" name="endDate" ordinal="3"/><FieldDefinition aspect.thingTemplate="6LoWPAN_Sensor_Node" baseType="THINGNAME" description="" name="machineName" ordinal="1"/><FieldDefinition aspect.isRequired="true" baseType="DATETIME" description="" name="startDate" ordinal="2"/></ParameterDefinitions></ServiceDefinition><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="getMachinery"><ResultType aspect.dataShape="machineryDatashape" baseType="INFOTABLE" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition></ServiceDefinitions><EventDefinitions/><ServiceMappings/><ServiceImplementations><ServiceImplementation description="" handlerName="Script" name="getCurrentTime"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[var time = new Date();
+
+var result = time.toString();]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="getMachineGraphData"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[/////////////////////////////////
+/////////Get graph data//////////
+/////////////////////////////////
+
+//
+
+var params = {
+	oldestFirst: false /* BOOLEAN */,
+	maxItems: 100000 /* NUMBER */,
+	sourceTags: undefined /* TAGS */,
+	endDate: endDate /* DATETIME */,
+	query: undefined /* QUERY */,
+	source: machineName /* STRING */,
+	startDate: startDate /* DATETIME */,
+	tags: undefined /* TAGS */
+};
+
+// result: INFOTABLE
+var resultSet = Things["CoapDataStream"].QueryStreamEntriesWithData(params);
+
+var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "machineGraphData"
+};
+
+// CreateInfoTableFromDataShape(infoTableName:STRING("InfoTable"), dataShapeName:STRING):INFOTABLE(machineGraphData)
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+//populate data fields appropriately
+var maxIterations = resultSet.rows.length - 2;
+var newRow = new Object();
+for(var i = 0; i < maxIterations; i++){
+	//
+    newRow.DifferenceValue = resultSet.rows[i].Valve1_Counts - resultSet.rows[i+1].Valve1_Counts;
+    newRow.CurrentValue = resultSet.rows[i].Valve1_Counts;
+    newRow.DifferenceValue2 = resultSet.rows[i].Valve2_Counts - resultSet.rows[i+1].Valve2_Counts;
+    newRow.CurrentValue2 = resultSet.rows[i].Valve2_Counts;
+    newRow.DifferenceValue3 = resultSet.rows[i].Valve3_Counts - resultSet.rows[i+1].Valve3_Counts;
+    newRow.CurrentValue3 = resultSet.rows[i].Valve3_Counts;
+    newRow.DifferenceValue4 = resultSet.rows[i].Valve4_Counts - resultSet.rows[i+1].Valve4_Counts;
+    newRow.CurrentValue4 = resultSet.rows[i].Valve4_Counts;
+    newRow.Timestamp = resultSet.rows[i].timestamp;
+    result.AddRow(newRow);
+}
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation><ServiceImplementation description="" handlerName="Script" name="getMachinery"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[
+// result: INFOTABLE dataShape: RootEntityList
+var resultSet = ThingTemplates["6LoWPAN_Sensor_Node"].GetImplementingThings();
+var newRow;
+var params = {
+	infoTableName : "InfoTable",
+	dataShapeName : "machineryDatashape"
+};
+
+// CreateInfoTableFromDataShape(infoTableName:STRING("InfoTable"), dataShapeName:STRING):INFOTABLE(machineryDatashape)
+var result = Resources["InfoTableFunctions"].CreateInfoTableFromDataShape(params);
+var intermedVal;
+
+
+for(var i=0;i<resultSet.rows.length;i++){
+	newRow = new Object();
+    
+    newRow.Name = resultSet.rows[i].name;
+    newRow.ipAddr = (Things[Things[resultSet.rows[i].name].coapThingName].GetConfigurationTable({tableName: "ConnectionSetup"})).rows[0].ServerURL;
+    //v1
+    intermedVal = 0;
+    if(Things[resultSet.rows[i].name].valve1_last24h != 0) intermedVal = (Things[resultSet.rows[i].name].valveLifeTime - Things[resultSet.rows[i].name].valve1Counts - Things[resultSet.rows[i].name].refCount1)/Things[resultSet.rows[i].name].valve1_last24h;
+    if(intermedVal == 0){
+    	newRow.v1Life = "n/a";
+    }else{
+        if(intermedVal < 365){
+            newRow.v1Life = "" + Math.round(intermedVal) +" days";
+        }else{
+        	newRow.v1Life = "" + Math.round(intermedVal/365) +" years";
+        }
+        
+    }
+    //v2
+    intermedVal = 0;
+    if(Things[resultSet.rows[i].name].valve2_last24h != 0) intermedVal = (Things[resultSet.rows[i].name].valveLifeTime - Things[resultSet.rows[i].name].valve2Counts - Things[resultSet.rows[i].name].refCount2)/Things[resultSet.rows[i].name].valve2_last24h;
+    if(intermedVal == 0){
+    	newRow.v2Life = "n/a";
+    }else{
+        if(intermedVal < 365){
+            newRow.v2Life = "" + Math.round(intermedVal) +" days";
+        }else{
+        	newRow.v2Life = "" + Math.round(intermedVal/365) +" years";
+        }
+        
+    }
+    //v3
+    intermedVal = 0;
+    if(Things[resultSet.rows[i].name].valve3_last24h != 0) intermedVal = (Things[resultSet.rows[i].name].valveLifeTime - Things[resultSet.rows[i].name].valve3Counts - Things[resultSet.rows[i].name].refCount3)/Things[resultSet.rows[i].name].valve3_last24h;
+    if(intermedVal == 0){
+    	newRow.v3Life = "n/a";
+    }else{
+        if(intermedVal < 365){
+            newRow.v3Life = "" + Math.round(intermedVal) +" days";
+        }else{
+        	newRow.v3Life = "" + Math.round(intermedVal/365) +" years";
+        }
+        
+    }
+    //v4
+    intermedVal = 0;
+    if(Things[resultSet.rows[i].name].valve4_last24h != 0) intermedVal = (Things[resultSet.rows[i].name].valveLifeTime - Things[resultSet.rows[i].name].valve4Counts - Things[resultSet.rows[i].name].refCount4)/Things[resultSet.rows[i].name].valve4_last24h;
+    if(intermedVal == 0){
+    	newRow.v4Life = "n/a";
+    }else{
+        if(intermedVal < 365){
+            newRow.v4Life = "" + Math.round(intermedVal) +" days";
+        }else{
+        	newRow.v4Life = "" + Math.round(intermedVal/365) +" years";
+        }
+        
+    }
+    result.AddRow(newRow);
+}
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation></ServiceImplementations><Subscriptions/></ThingShape><PropertyBindings/><RemotePropertyBindings/><RemoteServiceBindings/><RemoteEventBindings/><AlertConfigurations/><ImplementedShapes/><ThingProperties/><ConfigurationChanges><ConfigurationChange changeAction="CREATE" changeReason="header : thingTemplate : updated, name : updated&#10;services :  : Input parameter machineName Added, Input parameter startDate Added, Input parameter endDate Added, Input parameter startDate Updated, getMachineGraphData : Inputs updated, Service Added, getCurrentTime : Code Updated, Service Added&#10;" timestamp="2018-08-21T20:09:51.194+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getCurrentTime : Output Updated, getMachinery : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-08-21T20:20:29.019+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T20:21:16.692+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T20:21:27.800+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachineGraphData : Code Updated, Output Updated&#10;" timestamp="2018-08-21T20:39:20.851+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T20:39:24.782+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T21:15:47.224+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:15:52.170+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T21:34:25.613+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:35:21.508+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:35:58.917+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:36:32.316+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T21:43:40.041+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : getMachinery : Code Updated&#10;" timestamp="2018-08-21T22:43:36.232+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T22:43:39.477+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2018-08-29T08:38:38.304+01:00" user="Administrator"/></ConfigurationChanges></Thing></Things></Entities>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Entities build="b129" majorVersion="7" minorVersion="4" modelPersistenceProviderPackage="PostgresPersistenceProviderPackage" revision="2" schemaVersion="940"><Things><Thing description="" documentationContent="" effectiveThingPackage="ConfiguredThing" enabled="true" homeMashup="" identifier="" lastModifiedDate="2018-08-29T08:38:31.471+01:00" name="KMG_CoapCommsThing" projectName="" published="false" tags="Applications:export-1" thingTemplate="GenericThing" valueStream=""><Owner name="Administrator" type="User"/><avatar/><DesignTimePermissions><Create/><Read/><Update/><Delete/><Metadata/></DesignTimePermissions><RunTimePermissions/><VisibilityPermissions><Visibility/></VisibilityPermissions><ConfigurationTables/><ThingShape><PropertyDefinitions/><ServiceDefinitions><ServiceDefinition aspect.isAsync="false" category="" description="" isAllowOverride="false" isLocalOnly="false" isOpen="false" isPrivate="false" name="CoapGetAllMachineData"><ResultType baseType="NOTHING" description="" name="result" ordinal="0"/><ParameterDefinitions/></ServiceDefinition></ServiceDefinitions><EventDefinitions/><ServiceMappings/><ServiceImplementations><ServiceImplementation description="" handlerName="Script" name="CoapGetAllMachineData"><ConfigurationTables><ConfigurationTable description="Script" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[/////////////////////////////////////////////////////////////////
+/////////////////////// KMG: 13-08-18 ///////////////////////////
+/*
+	This service loops through all of the Coap client Things and
+    returns the retrieved data in the form of an infotable
+*/
+/*
+//1. Get all of the coap clients(one needed to be configured, per end device)
+var knownDevices = ThingTemplates["Coap"].GetImplementingThingsWithData();
+var result = undefined;
+for(var i = 0; i < knownDevices.row.length; i++){
+	result = Things[knownDevices.rows[i].name].
+}
+
+*/
+// result: INFOTABLE
+
+var params, resultSet;
+var now = new Date();
+var pathStrings = ["/riot/valve1","/riot/valve2","/riot/valve3","/riot/valve4"];
+// result: INFOTABLE dataShape: RootEntityList
+var machines = ThingTemplates["6LoWPAN_Sensor_Node"].GetImplementingThings();
+var machineCount, connectionEstablished,boardName, valve1Result,valve1Num,i, resultSet, valveResult;
+
+for(machineCount = 0; machineCount < machines.rows.length; machineCount++){
+    //("Current Machine = ");
+    resultSet = Things[Things[machines.rows[machineCount].name].coapThingName].GetConfigurationTable({tableName: "ConnectionSetup"});
+    // result: STRING
+    valveResult = ["-1","-1","-1","-1"];
+    connectionEstablished = true;
+    try{
+        boardName = Things[Things[machines.rows[machineCount].name].coapThingName].Get({targetResource: "/riot/board"});
+        for(i = 0; i < 4;i++){
+            valveResult[i] = Things[Things[machines.rows[machineCount].name].coapThingName].Get({targetResource: pathStrings[i]});
+        }
+    }catch(err){
+        connectionEstablished = false;
+        //("Error = " + err.message);
+    }
+    //update the machine totals first:
+    //("L38");
+    if(connectionEstablished){
+        //stop a parsing error if the device was switched off
+        valve1Num = parseInt(valveResult[0],10);//parse int
+        if(valve1Num < Things[machines.rows[machineCount].name].valve1Counts) Things[machines.rows[machineCount].name].refCount1 = Things[machines.rows[machineCount].name].refCount1 + Things[machines.rows[machineCount].name].valve1Counts;
+        Things[machines.rows[machineCount].name].valve1Counts = valve1Num;//(valve1Num - Things[machines.rows[machineCount].name].refCount1);
+        valve1Num = parseInt(valveResult[1],10);//parse int
+        if(valve1Num < Things[machines.rows[machineCount].name].valve1Counts) Things[machines.rows[machineCount].name].refCount2 = Things[machines.rows[machineCount].name].refCount2 + Things[machines.rows[machineCount].name].valve2Counts;
+        Things[machines.rows[machineCount].name].valve2Counts = valve1Num;// += (valve1Num - Things[machines.rows[machineCount].name].refCount2);
+        valve1Num = parseInt(valveResult[2],10);//parse int
+        if(valve1Num < Things[machines.rows[machineCount].name].valve1Counts) Things[machines.rows[machineCount].name].refCount3 = Things[machines.rows[machineCount].name].refCount3 + Things[machines.rows[machineCount].name].valve3Counts;
+        Things[machines.rows[machineCount].name].valve3Counts = valve1Num;// += (valve1Num - Things[machines.rows[machineCount].name].refCount3);
+        valve1Num = parseInt(valveResult[3],10);//parse int
+        if(valve1Num < Things[machines.rows[machineCount].name].valve1Counts) Things[machines.rows[machineCount].name].refCount4 = Things[machines.rows[machineCount].name].refCount4 + Things[machines.rows[machineCount].name].valve4Counts;
+        Things[machines.rows[machineCount].name].valve4Counts = valve1Num;// += (valve1Num - Things[machines.rows[machineCount].name].refCount4);
+
+        Things[machines.rows[machineCount].name].lastSeenSystem = now; //update last seen system time
+
+    }
+    //let's update the last 24h numbers aswell
+    //get that data: 
+    //("L59");
+    params = {
+        oldestFirst: true,
+        maxItems: 1, //just incase of server restart
+        sourceTags: undefined,
+        endDate: now,
+        query: undefined,
+        source: machines.rows[machineCount].name,
+        startDate: dateAddDays(now, -1),
+        tags: undefined /* TAGS */
+    };
+    resultSet = Things["CoapDataStream"].QueryStreamEntriesWithData(params);
+    //("L71");
+    if(resultSet.rows.length > 0){
+        //only here if any data was found in the last 24h
+        Things[machines.rows[machineCount].name].valve1_last24h = Things[machines.rows[machineCount].name].valve1Counts - resultSet.rows[0].Valve1_Counts;
+        Things[machines.rows[machineCount].name].valve2_last24h = Things[machines.rows[machineCount].name].valve2Counts - resultSet.rows[0].Valve2_Counts;
+        Things[machines.rows[machineCount].name].valve3_last24h = Things[machines.rows[machineCount].name].valve3Counts - resultSet.rows[0].Valve3_Counts;
+        Things[machines.rows[machineCount].name].valve4_last24h = Things[machines.rows[machineCount].name].valve4Counts - resultSet.rows[0].Valve4_Counts;
+    }else{
+        Things[machines.rows[machineCount].name].valve1_last24h = 0;
+        Things[machines.rows[machineCount].name].valve2_last24h = 0;
+        Things[machines.rows[machineCount].name].valve3_last24h = 0;
+        Things[machines.rows[machineCount].name].valve4_last24h = 0;
+    }
+    //add a stream entry also:
+	//("L85");
+    //let's create a record in the stream
+    var values = Things["CoapDataStream"].CreateValues();
+    values.Valve4_Counts = Things[machines.rows[machineCount].name].valve4Counts; //NUMBER
+    values.LastSeenTime = Things[machines.rows[machineCount].name].lastSeenSystem; //DATETIME
+    values.ExtruderSetpoint = 0; //NUMBER
+    values.Running = true; //BOOLEAN
+    values.Valve1_Counts = Things[machines.rows[machineCount].name].valve1Counts; //NUMBER
+    values.Door_Closed = true; //BOOLEAN
+    values.DeviceIP = (Things[Things[machines.rows[machineCount].name].coapThingName].GetConfigurationTable({tableName: "ConnectionSetup"})).rows[0].ServerURL; //STRING
+    values.Valve2_Counts = Things[machines.rows[machineCount].name].valve2Counts; //NUMBER
+    values.Valve3_Counts = Things[machines.rows[machineCount].name].valve3Counts; //NUMBER
+	//("L97");
+    params = {
+        sourceType: undefined /* STRING */,
+        values: values /* INFOTABLE*/,
+        location: undefined /* LOCATION */,
+        source: machines.rows[machineCount].name /* STRING */,
+        timestamp: now /* DATETIME */,
+        tags: undefined /* TAGS */
+    };
+	//("L106");
+    // no return
+    if(connectionEstablished)Things["CoapDataStream"].AddStreamEntry(params);
+
+}
+
+
+]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation></ServiceImplementations><Subscriptions><Subscription enabled="true" eventName="Timer" source="Timer_CoapRequests" sourceProperty=""><ServiceImplementation description="" handlerName="Script" name="Type.Thing:Entity.Timer_CoapRequests:Event.Timer"><ConfigurationTables><ConfigurationTable description="" isMultiRow="false" name="Script" ordinal="0"><DataShape><FieldDefinitions><FieldDefinition baseType="STRING" description="code" name="code" ordinal="0"/></FieldDefinitions></DataShape><Rows><Row><code><![CDATA[me.CoapGetAllMachineData();]]></code></Row></Rows></ConfigurationTable></ConfigurationTables></ServiceImplementation></Subscription></Subscriptions></ThingShape><PropertyBindings/><RemotePropertyBindings/><RemoteServiceBindings/><RemoteEventBindings/><AlertConfigurations/><ImplementedShapes/><ThingProperties/><ConfigurationChanges><ConfigurationChange changeAction="CREATE" changeReason="header : thingTemplate : updated, name : updated&#10;" timestamp="2018-08-13T21:25:02.103+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated, Code Updated, Service Added&#10;" timestamp="2018-08-13T21:33:50.904+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-13T21:34:09.998+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-13T21:34:52.337+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-13T21:35:14.785+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-13T21:36:11.475+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-13T21:36:39.478+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated, Code Updated&#10;" timestamp="2018-08-21T16:44:18.879+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:45:27.130+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:45:38.518+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:48:38.807+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-21T16:48:59.649+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:50:14.295+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:50:22.547+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:50:43.311+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:52:04.183+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:52:23.450+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:52:31.920+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:53:03.261+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:53:10.577+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:53:44.195+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:56:28.370+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:57:12.752+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:57:41.612+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:58:14.123+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:58:44.574+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:59:36.116+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T16:59:52.637+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:17:36.779+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:20:15.908+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:21:16.374+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-21T17:45:24.308+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:45:39.830+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:45:59.923+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:46:33.323+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:46:43.728+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:47:40.982+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:47:50.607+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-21T17:48:01.636+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-21T17:48:19.342+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-21T17:50:02.505+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:50:44.657+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T17:54:35.334+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Output Updated&#10;" timestamp="2018-08-21T18:00:43.401+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:01:48.485+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:04:25.156+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:05:47.914+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:06:35.293+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:07:35.213+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:08:40.327+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:08:59.718+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:09:31.839+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:10:47.015+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:11:20.399+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:11:34.127+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:12:00.959+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:12:07.387+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="subscriptions : New subscription : Source updated, Code Updated, Timer_CoapRequests:Timer : New subscription, Subscription Added&#10;" timestamp="2018-08-21T18:18:15.734+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-21T18:21:27.911+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:21:33.667+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-21T18:23:19.155+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:23:21.058+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:23:23.804+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-21T18:24:35.205+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:24:38.887+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-21T18:27:22.673+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:27:25.247+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-21T18:28:37.850+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T18:28:41.344+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="services : CoapGetAllMachineData : Code Updated&#10;" timestamp="2018-08-21T22:39:34.944+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T22:39:59.249+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="" timestamp="2018-08-21T22:41:10.822+01:00" user="Administrator"/><ConfigurationChange changeAction="MODIFY" changeReason="header : tags : updated&#10;" timestamp="2018-08-29T08:38:31.464+01:00" user="Administrator"/></ConfigurationChanges></Thing></Things></Entities>
