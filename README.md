@@ -3,7 +3,7 @@ This repository contains all relevant software developed for comparing 6LoWPAN f
 
 The simulations were performed in NS3 and all modified network stack files can be seen in the "/Simulation-Development/lr-wpan" directory.
 All relevant modifications will have a comment at the start, in the form of "//KMG". All other files found under "/Simulation-Development"
-are application codes, used for the various tests.
+are application codes, which were used for the various 6LoWPAN tests performed during the research.
 
 The RIOT-OS modifications made in this project are mainly related to the CLI interface and subsequent UART output. Therefore the files 
 included in this repository are only those related to the "RIOT-OS/RIOT/sys/shell/commands" directory, found in the RIOT-OS Git repository. The OpenThread modifications are also only related to CLI operations and are fully contained in the files; "cli.cpp" and "cli.hpp", which are modified versions of those found in the OpenThread git repository at the location "openthread/src/examples/cli".
