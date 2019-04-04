@@ -293,29 +293,24 @@ staticRouting7->AddHostRouteTo (deviceInterfaces.GetAddress (5,1), deviceInterfa
 //staticRouting5->AddHostRouteTo (deviceInterfaces.GetAddress (6,1), deviceInterfaces.GetAddress (6,1) ,one, Ipv6Address ("2001:2::"),1);
 ///Add app layer UDP
 ///Add app layer UDP
-NS_LOG_INFO ("Adding UDP layer.");
-uint16_t port = 4000;
+
+
+
+
+NS_LOG_INFO ("Adding PING layer.");
 uint32_t packetSize = 1200; //bytes
 Time interPacketInterval = Seconds (4);//Seconds (0.1);
-uint32_t numPackets = 30; // packets
+uint32_t numPackets = 15; // packets
 TypeId tid = TypeId::LookupByName ("ns3::UdpSocketFactory");
-
-
-
-//sockets(smart socket pointers):
-Ptr<Socket> sink = Socket::CreateSocket (n2, tid); //this is the definition of the sink on node 3(final node {0,1,2,3})
-Ptr<Socket> source = Socket::CreateSocket (n0, tid); //this is the source defined on node 0(furthest away node)
-
-//node 3 //Destination Node
-Inet6SocketAddress local3 = Inet6SocketAddress (Ipv6Address::GetAny (),port); //escuta 4000
-sink->Bind (local3);
-sink->SetRecvCallback (MakeCallback (&ReceiveDestiny));
-
-//node 0 //Source Node
-Inet6SocketAddress remote0 = Inet6SocketAddress(deviceInterfaces.GetAddress (2,1), port); //this should be the final destination => the interface should be:
-Inet6SocketAddress dest = Inet6SocketAddress (Ipv6Address::GetAny (),port); //this will listen on all interfaces on this device?
-source->SetAllowBroadcast (false); //Q. What effect does this have? - Uses multicast address?
-source->Connect (remote0);
+Ping6Helper ping6_SRC;
+ping6_SRC.SetLocal (deviceInterfaces.GetAddress (0, 1));
+ping6_SRC.SetRemote (deviceInterfaces.GetAddress (2, 1));
+ping6_SRC.SetAttribute ("MaxPackets", UintegerValue (numPackets));
+ping6_SRC.SetAttribute ("Interval", TimeValue (interPacketInterval));
+ping6_SRC.SetAttribute ("PacketSize", UintegerValue (packetSize));
+ApplicationContainer apps_SRC = ping6_SRC.Install (nodes.Get (0));
+apps_SRC.Start (Seconds (2.0));
+apps_SRC.Stop (Seconds (80.0));
 
 
 ///PCAP traces:
@@ -350,21 +345,6 @@ Ptr<FlowMonitor> monitor = flowmon.InstallAll();
 Simulator::Stop (Seconds(120.0));
 Simulator::Run ();
 
-//stats:
-monitor->CheckForLostPackets ();
-Ptr<Ipv6FlowClassifier> classifier = DynamicCast<Ipv6FlowClassifier>(flowmon.GetClassifier ());
-std::map<FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats ();
-std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin();
-
-
-//print out of results:
-std::cout << "Flow IP : (" << address0 << " -> " << address3 <<")\n";
-std::cout << " Tx Bytes: " << i->second.txBytes << "\n";
-std::cout << " Rx Bytes: " << i->second.rxBytes << "\n";
-std::cout << " Throughput: " << i->second.rxBytes * 8.0 /(i->second.timeLastRxPacket.GetSeconds() - i->second.timeFirstTxPacket.GetSeconds())/1024/1024 << " Mbps\n";
-
-//output:
-monitor->SerializeToXmlFile("wsn_main.flowmon", true, true);
 
 
 //End:
