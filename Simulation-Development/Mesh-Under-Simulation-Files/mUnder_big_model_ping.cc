@@ -1,4 +1,4 @@
-//Author: Kevin Mc Gee, Based on original work(L4 routing) by Moab Rodrigues de Jesus
+//Author: Kevin Mc Gee
 /*
 // Network topology: Large(See corresponding portfolio - Appendix C for design details)
 //
@@ -41,34 +41,6 @@
 
 using namespace ns3;
 NS_LOG_COMPONENT_DEFINE ("WSN");
-void ReceivePacket (Ptr<Socket> dest, Ptr<Socket> socket){
-	//dest->Connect(remote);
-	while (socket->Recv ()){
-		NS_LOG_UNCOND ("Node " << socket->GetNode()->GetId() << " received one packet!");
-		dest->Send (Create<Packet>());
-	}
-	//dest->Close();
-}
-
-
-
-void ReceiveDestiny (Ptr<Socket> socket){
-	while (socket->Recv ()){
-		NS_LOG_UNCOND ("Package arrived at no 3");
-	}
-}
-
-
-
-static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, uint32_t pktCount, Time pktInterval ){
-	if (pktCount > 0){
-		socket->Send (Create<Packet> (pktSize));
-		NS_LOG_UNCOND("Node 0 sends packet number "<< pktCount);
-		Simulator::Schedule (pktInterval, &GenerateTraffic, socket, pktSize,pktCount-1, pktInterval);
-	}else{
-		socket->Close ();
-	}
-}
 
 
 
@@ -1052,7 +1024,6 @@ anim.EnablePacketMetadata(true);
 //run the simulation:
 NS_LOG_UNCOND("Run Simulation.");
 //Not UDP!!!
-//Simulator::ScheduleWithContext (source->GetNode ()->GetId (), Seconds (1.0), &GenerateTraffic, source, packetSize, numPackets, interPacketInterval);
 
 
 // Calculate Throughput using Flowmonitor
@@ -1063,16 +1034,7 @@ Ptr<FlowMonitor> monitor = flowmon.InstallAll();
 Simulator::Stop (Seconds(150.0));
 Simulator::Run ();
 
-//stats:
-monitor->CheckForLostPackets ();
-Ptr<Ipv6FlowClassifier> classifier = DynamicCast<Ipv6FlowClassifier>(flowmon.GetClassifier ());
-std::map<FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats ();
-std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin();
 
-
-
-//output:
-monitor->SerializeToXmlFile("wsn_main.flowmon", true, true);
 
 
 //End:
