@@ -1,4 +1,4 @@
-//Author: Kevin Mc Gee, Based on original work(L4 routing) by Moab Rodrigues de Jesus
+//Author: Kevin Mc Gee
 /*
 // Network topology:  Large(See Appendix C of corresponding portfolio)
 
@@ -40,34 +40,6 @@
 //#include "lowpanL2Hdr.h"
 using namespace ns3;
 NS_LOG_COMPONENT_DEFINE ("WSN");//TODO: See what the deal is with this stuff
-void ReceivePacket (Ptr<Socket> dest, Ptr<Socket> socket){
-	//dest->Connect(remote);
-	while (socket->Recv ()){
-		NS_LOG_UNCOND ("Node " << socket->GetNode()->GetId() << " received one packet!");
-		dest->Send (Create<Packet>());
-	}
-	//dest->Close();
-}
-
-
-
-void ReceiveDestiny (Ptr<Socket> socket){
-	while (socket->Recv ()){
-		NS_LOG_UNCOND ("Package arrived at no 3");
-	}
-}
-
-
-
-static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, uint32_t pktCount, Time pktInterval ){
-	if (pktCount > 0){
-		socket->Send (Create<Packet> (pktSize));
-		NS_LOG_UNCOND("Node 0 sends packet number "<< pktCount);
-		Simulator::Schedule (pktInterval, &GenerateTraffic, socket, pktSize,pktCount-1, pktInterval);
-	}else{
-		socket->Close ();
-	}
-}
 
 
 
