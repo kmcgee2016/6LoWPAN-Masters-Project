@@ -1,4 +1,4 @@
-//Author: Kevin Mc Gee, Based on original work(L4 routing) by Moab Rodrigues de Jesus
+//Author: Kevin Mc Gee
 /*
 // Network topology:
 //
@@ -37,35 +37,6 @@
 using namespace ns3;
 NS_LOG_COMPONENT_DEFINE ("WSN");//TODO: See what the deal is with this stuff
 //LogComponentEnable("lr-wpan-mac", LOG_LEVEL_ALL)
-//callback for packet reception
-void ReceivePacket (Ptr<Socket> dest, Ptr<Socket> socket){
-	//dest->Connect(remote);
-	while (socket->Recv ()){
-		NS_LOG_UNCOND ("Node " << socket->GetNode()->GetId() << " received one packet!");
-		dest->Send (Create<Packet>());
-	}
-	//dest->Close();
-}
-
-
-
-void ReceiveDestiny (Ptr<Socket> socket){
-	while (socket->Recv ()){
-		NS_LOG_UNCOND ("Package arrived at no 3");
-	}
-}
-
-
-
-static void GenerateTraffic (Ptr<Socket> socket, uint32_t pktSize, uint32_t pktCount, Time pktInterval ){
-	if (pktCount > 0){
-		socket->Send (Create<Packet> (pktSize));
-		NS_LOG_UNCOND("Node 0 sends packet number "<< pktCount);
-		Simulator::Schedule (pktInterval, &GenerateTraffic, socket, pktSize,pktCount-1, pktInterval);
-	}else{
-		socket->Close ();
-	}
-}
 
 
 
@@ -265,9 +236,6 @@ mobility.Install(nodes);
 
 //run the simulation:
 NS_LOG_INFO ("Run Simulation.");
-//Not:UDP!!!
-//Simulator::ScheduleWithContext (source->GetNode ()->GetId (), Seconds (1.0), &GenerateTraffic, source, packetSize, numPackets, interPacketInterval);
-
 
 // Calculate Throughput using Flowmonitor
 FlowMonitorHelper flowmon;
@@ -280,15 +248,6 @@ Simulator::Run ();
 //stats:
 monitor->CheckForLostPackets ();
 Ptr<Ipv6FlowClassifier> classifier = DynamicCast<Ipv6FlowClassifier>(flowmon.GetClassifier ());
-//std::map<FlowId, FlowMonitor::FlowStats> stats = monitor->GetFlowStats ();
-//std::map<FlowId, FlowMonitor::FlowStats>::const_iterator i = stats.begin();
-
-
-//print out of results:
-//std::cout << "Flow IP : (" << address0 << " -> " << address2 <<")\n";
-//std::cout << " Tx Bytes: " << i->second.txBytes << "\n";
-//std::cout << " Rx Bytes: " << i->second.rxBytes << "\n";
-//std::cout << " Throughput: " << i->second.rxBytes * 8.0 /(i->second.timeLastRxPacket.GetSeconds() - i->second.timeFirstTxPacket.GetSeconds())/1024/1024 << " Mbps\n";
 
 //output:
 monitor->SerializeToXmlFile("wsn_main.flowmon", true, true);
